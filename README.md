@@ -25,17 +25,17 @@ The goal of this project is to help ML engineers understand the flexibility and 
    git clone https://github.com/YourUsername/playground.cnn.git
    cd playground.cnn
 Install Dependencies: Install the required Python packages.
-bash
-Copy code
-pip install torch easygui
-Usage
+
+`pip install torch easygui torch`
+
+## Usage
 Run the script and follow the prompts to add layers to your CNN model.
 
 bash
 playground.cnn.py
 Example Interaction
-``bash
-...playground.cnn
+```bash
+   ...playground.cnn
   Next layer to be appended...
   1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
   5.Quit; 6.Display layers
