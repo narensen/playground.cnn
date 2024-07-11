@@ -30,9 +30,8 @@ Install Dependencies: Install the required Python packages.
 
 ## Usage
 Run the script and follow the prompts to add layers to your CNN model.
+`playground.cnn.py`
 
-bash
-playground.cnn.py
 Example Interaction
 ```bash
 Next layer to be appended...
