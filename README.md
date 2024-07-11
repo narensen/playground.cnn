@@ -67,4 +67,5 @@ Next layer to be appended...
 1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
 5.Quit; 6.Display layers
 6
+```
 ![Screenshot 2024-07-11 113741](https://github.com/narensen/playground.cnn/assets/106871870/6698cf24-3591-49f4-970c-e5fe3aaef7a7)
