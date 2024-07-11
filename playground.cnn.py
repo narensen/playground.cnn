@@ -68,9 +68,20 @@ def methods(model):
             model.add_module(f"conv2d_{len(model)}", nn.Conv2d(in_channels, out_channels, kernel_size))
             model.add_module(f"relu_{len(model)}", nn.ReLU())
 
-        elif choice_ == 2:
-            num_features = int(input("Enter num_features for BatchNorm2d: "))
-            model.add_module(f"batchnorm_{len(model)}", nn.BatchNorm2d(num_features))
+            while True:
+                try:
+                    add_norm = int(input("Do you want to add normalization 1.yes 2.no): "))
+
+                except ValueError:
+                    print("\n\033[31mPlease type in the appropriate key\033[0m\n")
+                    continue
+
+                if add_norm == 2:
+                    break
+                else:
+                    model.add_module(f"batchnorm_{len(model)}", nn.BatchNorm2d(out_channels))
+
+
 
         elif choice_ == 3:
             dropout_rate = float(input("Enter dropout rate: "))
@@ -94,6 +105,8 @@ def methods(model):
             print_layer_details(model)
 
         elif choice_ == 7:
+            model.add_module(f"flatten_{len(model)}", nn.Flatten())
+            model.add_module(f"linear_{len(model)}", nn.Linear(32, 10))
             train_model(model)
 
         elif choice_ == 8:
