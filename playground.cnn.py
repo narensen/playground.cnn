@@ -33,11 +33,13 @@ def train_model(model):
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.001)
-
+    
     epochs = 5
     for epoch in range(epochs):
         epoch_loss = 0
+        epoch_accuracy = 0
         progress_bar = tqdm(dataloader, desc=f"Epoch {epoch + 1}/{epochs}")
+        
         for batch in progress_bar:
             inputs, targets = batch
             optimizer.zero_grad()
@@ -45,9 +47,18 @@ def train_model(model):
             loss = criterion(outputs, targets)
             loss.backward()
             optimizer.step()
+            
             epoch_loss += loss.item()
-            progress_bar.set_postfix(loss=epoch_loss/len(dataloader))
-        easygui.msgbox(f"Epoch {epoch + 1}/{epochs} completed with loss: {epoch_loss/len(dataloader)}", title="Training Progress")
+            accuracy = calculate_accuracy(outputs, targets)
+            epoch_accuracy += accuracy
+            
+            progress_bar.set_postfix(loss=epoch_loss/len(dataloader), accuracy=epoch_accuracy/len(dataloader))
+        
+        average_loss = epoch_loss / len(dataloader)
+        average_accuracy = epoch_accuracy / len(dataloader)
+    
+    easygui.msgbox(f"Epoch {epoch + 1}/{epochs} completed with loss: {average_loss:.4f}, accuracy: {average_accuracy:.4f}", title="Training Progress")
+
 
 def methods(model):
     while True:
@@ -80,6 +91,7 @@ def methods(model):
                     break
                 else:
                     model.add_module(f"batchnorm_{len(model)}", nn.BatchNorm2d(out_channels))
+                    break
 
 
 
@@ -106,9 +118,9 @@ def methods(model):
 
         elif choice_ == 7:
             model.add_module(f"flatten_{len(model)}", nn.Flatten())
-            model.add_module(f"linear_{len(model)}", nn.Linear(32, 10))
+            model.add_module(f"linear_{len(model)}", nn.Linear(6272, 10))
             train_model(model)
-
+            break
         elif choice_ == 8:
             print("Exiting...")
             break
