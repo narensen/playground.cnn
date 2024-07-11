@@ -23,6 +23,12 @@ def save_model(model):
         torch.save(model.state_dict(), filepath)
         easygui.msgbox(f"Model saved to {filepath}", title="Save model")
 
+def calculate_accuracy(outputs, targets):
+    _, predicted = torch.max(outputs, 1)
+    correct = (predicted == targets).sum().item()
+    return correct / targets.size(0)
+
+
 def train_model(model):
     # Dummy dataset
     inputs = torch.randn(64, 3, 32, 32)
