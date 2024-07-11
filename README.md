@@ -41,8 +41,6 @@ Next layer to be appended...
 Enter number of input channels: 16
 Enter number of output channels: 32
 Enter kernel size: 3
-C:\Users\scart\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\init.py:459: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at ..\torch\csrc\utils\tensor_numpy.cpp:84.)
-  return tensor.uniform_(-bound, bound, generator=generator)
 Next layer to be appended...
 1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
 5.Quit; 6.Display layers
