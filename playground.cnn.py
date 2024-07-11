@@ -1,6 +1,10 @@
-
+import torch
 import torch.nn as nn
+import torch.optim as optim
+import torch.utils.data as data
 import easygui
+from tqdm import tqdm
+import pickle
 
 def print_layer_details(model):
     details = ""
@@ -13,15 +17,47 @@ def print_layer_details(model):
 
     easygui.msgbox(details, title="Layer Details")
 
+def save_model(model):
+    filepath = easygui.filesavebox(title="Save model", default="model.pth")
+    if filepath:
+        torch.save(model.state_dict(), filepath)
+        easygui.msgbox(f"Model saved to {filepath}", title="Save model")
+
+def train_model(model):
+    # Dummy dataset
+    inputs = torch.randn(64, 3, 32, 32)
+    targets = torch.randint(0, 10, (64,))
+
+    dataset = data.TensorDataset(inputs, targets)
+    dataloader = data.DataLoader(dataset, batch_size=16, shuffle=True)
+
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+    epochs = 5
+    for epoch in range(epochs):
+        epoch_loss = 0
+        progress_bar = tqdm(dataloader, desc=f"Epoch {epoch + 1}/{epochs}")
+        for batch in progress_bar:
+            inputs, targets = batch
+            optimizer.zero_grad()
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+            loss.backward()
+            optimizer.step()
+            epoch_loss += loss.item()
+            progress_bar.set_postfix(loss=epoch_loss/len(dataloader))
+        easygui.msgbox(f"Epoch {epoch + 1}/{epochs} completed with loss: {epoch_loss/len(dataloader)}", title="Training Progress")
+
 def methods(model):
     while True:
         try:
-            choice_ = int(input("Next layer to be appended...\n1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;\n5.Quit; 6.Display layers\n"))
+            choice_ = int(input("Next layer to be appended...\n1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;\n5.Save; 6.Display layers; 7.Train; 8.Quit\n"))
         except ValueError:
             print("\n\033[31mPlease type in the appropriate key\033[0m\n")
             continue
 
-        if choice_ < 1 or choice_ > 6:
+        if choice_ < 1 or choice_ > 8:
             print("\n\033[31mPlease type in the appropriate key\033[0m\n")
             continue
 
@@ -52,11 +88,17 @@ def methods(model):
                 model.add_module(f"adaptiveavgpool2d_{len(model)}", nn.AdaptiveAvgPool2d(1))
 
         elif choice_ == 5:
-            print("Exiting...")
-            break
+            save_model(model)
 
         elif choice_ == 6:
             print_layer_details(model)
+
+        elif choice_ == 7:
+            train_model(model)
+
+        elif choice_ == 8:
+            print("Exiting...")
+            break
 
 if __name__ == "__main__":
     model = nn.Sequential()
