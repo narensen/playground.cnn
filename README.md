@@ -35,15 +35,36 @@ bash
 playground.cnn.py
 Example Interaction
 ```bash
-   ...playground.cnn
-  Next layer to be appended...
-  1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
-  5.Quit; 6.Display layers
-  1
-  Enter number of input channels: 3
-  Enter number of output channels: 64
-  Enter kernel size: 3
-  Next layer to be appended...
-  1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
-  5.Quit; 6.Display layers
-  6 -> Display layers                    
+Next layer to be appended...
+1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
+5.Quit; 6.Display layers
+1
+Enter number of input channels: 16
+Enter number of output channels: 32
+Enter kernel size: 3
+C:\Users\scart\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\nn\init.py:459: UserWarning: Failed to initialize NumPy: No module named 'numpy' (Triggered internally at ..\torch\csrc\utils\tensor_numpy.cpp:84.)
+  return tensor.uniform_(-bound, bound, generator=generator)
+Next layer to be appended...
+1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
+5.Quit; 6.Display layers
+2
+Enter num_features for BatchNorm2d: 100
+Next layer to be appended...
+1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
+5.Quit; 6.Display layers
+3
+Enter dropout rate: 0.5
+Next layer to be appended...
+1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
+5.Quit; 6.Display layers
+4
+Choose pooling layer type:
+1. MaxPool2D
+2. AvgPool2D
+3. AdaptiveAvgPool2D
+1
+Enter pool size: 2
+Next layer to be appended...
+1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
+5.Quit; 6.Display layers
+6
