@@ -17,7 +17,7 @@ The goal of this project is to help ML engineers understand the flexibility and 
 - Python 3.x
 - PyTorch
 - EasyGUI
-
+- tqdm
 ## Installation
 
 1. **Clone the Repository**: Clone the repository to your local machine.
@@ -26,7 +26,7 @@ The goal of this project is to help ML engineers understand the flexibility and 
    cd playground.cnn
 Install Dependencies: Install the required Python packages.
 
-`pip install torch easygui torch`
+`pip install torch easygui torch tqdm`
 
 ## Usage
 Run the script and follow the prompts to add layers to your CNN model.
