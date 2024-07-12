@@ -67,9 +67,11 @@ def train_model(model):
 
 
 def methods(model):
+    conv_counter=0
+    prev_out=0
     while True:
         try:
-            choice_ = int(input("Next layer to be appended...\n1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;\n5.Save; 6.Display layers; 7.Train; 8.Quit\n"))
+            choice_ = int(input("Layer to be appended...\n1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;\n5.Save; 6.Display layers; 7.Train; 8.Quit\n"))
         except ValueError:
             print("\n\033[31mPlease type in the appropriate key\033[0m\n")
             continue
@@ -79,11 +81,23 @@ def methods(model):
             continue
 
         if choice_ == 1:
-            in_channels = int(input("Enter number of input channels: "))
-            out_channels = int(input("Enter number of output channels: "))
-            kernel_size = int(input("Enter kernel size: "))
+            conv_counter += 1
+
+            if conv_counter != 1:
+                
+                out_channels = int(input("Enter number of output channels: "))                
+                kernel_size = int(input("Enter kernel size: "))
+                in_channels = prev_out
+
+            else:
+                in_channels = int(input("Enter number of input channels: "))
+                out_channels = int(input("Enter number of output channels: "))
+                kernel_size = int(input("Enter kernel size: "))
+                prev_out = out_channels
+
             model.add_module(f"conv2d_{len(model)}", nn.Conv2d(in_channels, out_channels, kernel_size))
             model.add_module(f"relu_{len(model)}", nn.ReLU())
+
 
             while True:
                 try:
@@ -133,4 +147,5 @@ def methods(model):
 
 if __name__ == "__main__":
     model = nn.Sequential()
+ 
     methods(model)
