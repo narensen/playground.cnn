@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -40,21 +39,24 @@ def get_dataset(dataset_choice):
         trainset = datasets.CIFAR10(root='./data', train=True, download=True, transform=transform)
         testset = datasets.CIFAR10(root='./data', train=False, download=True, transform=transform)
         input_channels = 3
+        input_size = 32
     elif dataset_choice == 'Fashion MNIST':
         trainset = datasets.FashionMNIST(root='./data', train=True, download=True, transform=transform)
         testset = datasets.FashionMNIST(root='./data', train=False, download=True, transform=transform)
         input_channels = 1
+        input_size = 28
     elif dataset_choice == 'MNIST':
         trainset = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
         testset = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
         input_channels = 1
+        input_size = 28
     else:
         raise ValueError("Invalid dataset choice")
 
     trainloader = data.DataLoader(trainset, batch_size=16, shuffle=True)
     testloader = data.DataLoader(testset, batch_size=16, shuffle=False)
 
-    return trainloader, testloader, input_channels
+    return trainloader, testloader, input_channels, input_size
 
 def train_model(model, trainloader):
     criterion = nn.CrossEntropyLoss()
@@ -85,10 +87,15 @@ def train_model(model, trainloader):
     
     easygui.msgbox(f"Epoch {epoch + 1}/{epochs} completed with loss: {average_loss:.4f}, accuracy: {average_accuracy:.4f}", title="Training Progress")
 
+def calculate_output_size(input_size, kernel_size, stride=1, padding=0):
+    return (input_size - kernel_size + 2 * padding) // stride + 1
+
 def methods(model):
     conv_counter = 0
     prev_out = 0
     input_channels = 0
+    input_size = 0
+    current_size = 0
     trainloader, testloader = None, None
 
     while True:
@@ -110,13 +117,15 @@ def methods(model):
                 out_channels = int(input("Enter number of output channels: "))
                 kernel_size = int(input("Enter kernel size: "))
                 prev_out = out_channels
+                current_size = calculate_output_size(input_size, kernel_size, stride=1, padding=1)
             else:
                 out_channels = int(input("Enter number of output channels: "))
                 kernel_size = int(input("Enter kernel size: "))
                 in_channels = prev_out
                 prev_out = out_channels
+                current_size = calculate_output_size(current_size, kernel_size, stride=1, padding=1)
 
-            model.add_module(f"conv2d_{len(model)}", nn.Conv2d(in_channels, out_channels, kernel_size))
+            model.add_module(f"conv2d_{len(model)}", nn.Conv2d(in_channels, out_channels, kernel_size, padding=1))
             model.add_module(f"relu_{len(model)}", nn.ReLU())
 
             while True:
@@ -141,11 +150,14 @@ def methods(model):
             if pool_type == 1:
                 pool_size = int(input("Enter pool size: "))
                 model.add_module(f"maxpool2d_{len(model)}", nn.MaxPool2d(pool_size))
+                current_size = calculate_output_size(current_size, pool_size, stride=2)
             elif pool_type == 2:
                 pool_size = int(input("Enter pool size: "))
                 model.add_module(f"avgpool2d_{len(model)}", nn.AvgPool2d(pool_size))
+                current_size = calculate_output_size(current_size, pool_size, stride=2)
             elif pool_type == 3:
                 model.add_module(f"adaptiveavgpool2d_{len(model)}", nn.AdaptiveAvgPool2d(1))
+                current_size = 1
 
         elif choice_ == 5:
             save_model(model)
@@ -155,7 +167,8 @@ def methods(model):
 
         elif choice_ == 7:
             model.add_module(f"flatten_{len(model)}", nn.Flatten())
-            model.add_module(f"linear_{len(model)}", nn.Linear(6272, 10))
+            fc_input_size = prev_out * current_size * current_size
+            model.add_module(f"linear_{len(model)}", nn.Linear(fc_input_size, 10))
             try:
                 train_model(model, trainloader)
             except RuntimeError as e:
@@ -165,7 +178,8 @@ def methods(model):
         elif choice_ == 8:
             dataset_choice = easygui.choicebox("Choose a dataset", "Dataset Selection", ["CIFAR-10", "Fashion MNIST", "MNIST"])
             if dataset_choice:
-                trainloader, testloader, input_channels = get_dataset(dataset_choice)
+                trainloader, testloader, input_channels, input_size = get_dataset(dataset_choice)
+                current_size = input_size
 
         elif choice_ == 9:
             print("Exiting...")
