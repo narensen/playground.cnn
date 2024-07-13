@@ -138,8 +138,13 @@ def methods(model):
         elif choice_ == 7:
             model.add_module(f"flatten_{len(model)}", nn.Flatten())
             model.add_module(f"linear_{len(model)}", nn.Linear(6272, 10))
-            train_model(model)
-            break
+            try:
+                train_model(model)
+            except RuntimeError as e:
+                print(e)
+                break
+            
+            
         elif choice_ == 8:
             print("Exiting...")
             break
