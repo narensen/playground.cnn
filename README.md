@@ -1,6 +1,6 @@
 # playground.cnn
 
-Playground.cnn is a Python script designed to interactively build Convolutional Neural Network (CNN) models using PyTorch. This project aims to provide an intuitive and interactive way for rising ML engineers to learn and experiment with CNN architectures.
+Playground.cnn is a pure Python script designed to interactively build Convolutional Neural Network (CNN) models using PyTorch. This project aims to provide an intuitive and interactive way for rising ML engineers to learn and experiment with CNN architectures.
 
 ## Impact
 
