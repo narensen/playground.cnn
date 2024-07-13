@@ -4,7 +4,6 @@ import torch.optim as optim
 import torch.utils.data as data
 import easygui
 from tqdm import tqdm
-import pickle
 
 def print_layer_details(model):
     details = ""
