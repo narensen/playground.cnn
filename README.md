@@ -22,7 +22,7 @@ The goal of this project is to help ML engineers understand the flexibility and 
 
 1. **Clone the Repository**: Clone the repository to your local machine.
    ```bash
-   git clone https://github.com/YourUsername/playground.cnn.git
+   git clone https://github.com/narensen/playground.cnn.git
    cd playground.cnn
 Install Dependencies: Install the required Python packages.
 
