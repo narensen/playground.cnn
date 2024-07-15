@@ -61,8 +61,6 @@ Choose pooling layer type:
 3. AdaptiveAvgPool2D
 1
 Enter pool size: 2
-Next layer to be appended...
-1.Conv2D; 2.Normalization; 3.Dropout; 4.Pooling layer;
 5.Quit; 6.Display layers
 6
 ```
