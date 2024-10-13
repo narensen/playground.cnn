@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Builder Launcher</title>
+</head>
+<body>
+    <h1>Model Builder Launcher</h1>
+    <button onclick="openModelBuilder()">Open Model Builder</button>
+
+    <script>
+        function openModelBuilder() {
+            fetch('/open-model-builder', {method: 'POST'})
+                .then(response => response.json())
+                .then(data => alert(data.message))
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
