@@ -145,7 +145,6 @@ class ModelBuilderApp:
         self.current_size = self.input_size
         messagebox.showinfo("Dataset Selected", f"Dataset {dataset_choice} loaded")
 
-
     def train_model(self):
         if self.trainloader is None:
             messagebox.showerror("Error", "Please choose a dataset first")
@@ -214,4 +213,3 @@ async def open_model_builder():
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
